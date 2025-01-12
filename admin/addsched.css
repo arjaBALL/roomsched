@@ -1,0 +1,101 @@
+/**
+ * Base styles for the confirmation and error messages
+ *
+ * @format
+ */
+
+.confirmation,
+.error {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 15px;
+  border-radius: 5px;
+  font-size: 16px;
+  font-family: Arial, sans-serif;
+  margin: 10px 0;
+  transition: opacity 0.3s ease;
+  width: 90%; /* Set width to 90% of the container */
+  margin-left: auto; /* Center the message horizontally */
+  margin-right: auto; /* Center the message horizontally */
+  text-align: center; /* Center the text */
+}
+
+.confirmation i,
+.error i {
+  font-size: 20px;
+  margin-right: 10px;
+}
+
+/* Success Message Styles */
+.confirmation {
+  background-color: #4caf50; /* Green background for success */
+  color: white;
+  border: 1px solid #388e3c; /* Darker green border */
+}
+
+.confirmation span {
+  font-weight: bold;
+}
+
+/* Error Message Styles */
+.error {
+  background-color: #f44336; /* Red background for error */
+  color: white;
+  border: 1px solid #d32f2f; /* Darker red border */
+}
+
+.error span {
+  font-weight: bold;
+}
+
+/* Show/Hide with transition */
+#confirmation-message,
+#error-message {
+  display: none; /* Initially hidden */
+}
+
+#confirmation-message.show,
+#error-message.show {
+  display: flex; /* Show when triggered */
+  opacity: 1;
+}
+
+/* Adding animation for smooth visibility transition */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.confirmation,
+.error {
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+.form-horizontal {
+  display: flex;
+  align-items: center;
+  margin-left: 20%;
+}
+
+.item,
+select,
+button,
+.select-teacher {
+  width: 75%;
+  height: 2.5rem;
+}
+
+.control-label {
+  font-size: 1.1em;
+  font-weight: bold;
+}
+
+.thumbnail_new_voter {
+  background-color: rgb(141, 156, 219);
+  height: auto;
+}
