@@ -1,6 +1,6 @@
 <?php
 // Include necessary files
-include('./connection/session.php');
+// include('./connection/session.php');
 include('./components/header.php');
 include('./connection/dbcon.php');
 include('./components/nav-top1.php');

@@ -9,7 +9,7 @@ use PhpOffice\PhpSpreadsheet\Style\Alignment;
 $servername = "localhost";
 $username = "root"; // Default username for XAMPP
 $password = "";     // Default password for XAMPP
-$dbname = "schd";
+$dbname = "isadfc";
 
 // Connect to the database
 $conn = new mysqli($servername, $username, $password, $dbname);
@@ -21,22 +21,22 @@ if ($conn->connect_error) {
 
 // SQL query to fetch schedule data grouped by floor
 $sql = "
-    SELECT 
-        floors.floor_number,
-        rooms.room_name,
-        schedules.day_of_week,
-        schedules.start_time,
-        schedules.end_time,
-        subjects.SubjectName,
-        teachers.FirstName,
-        teachers.LastName
-    FROM 
-        schedules
-    INNER JOIN rooms ON schedules.room_id = rooms.room_id
-    INNER JOIN floors ON rooms.floor_id = floors.floor_id
-    INNER JOIN subjects ON schedules.SubjectID = subjects.SubjectID
-    INNER JOIN teachers ON schedules.TeacherID = teachers.TeacherID
-    ORDER BY floors.floor_number, rooms.room_name, schedules.day_of_week, schedules.start_time
+   SELECT
+    schedules.schedule_id, 
+    floors.floor_number, 
+    rooms.room_name, 
+    schedules.day_of_week, 
+    schedules.start_time, 
+    schedules.end_time, 
+    subjects.subject_code, 
+    teaching_faculty_information.first_name, 
+    teaching_faculty_information.last_name
+FROM schedules
+INNER JOIN floors ON schedules.floor_id = floors.floor_id
+INNER JOIN rooms ON schedules.room_id = rooms.room_id
+INNER JOIN subjects ON schedules.subject_id = subjects.subject_id
+INNER JOIN teaching_faculty_information ON schedules.id = teaching_faculty_information.id
+ORDER BY schedules.day_of_week, schedules.start_time
 ";
 
 $result = $conn->query($sql);
@@ -129,7 +129,7 @@ while ($data = $result->fetch_assoc()) {
 
     // Insert schedule details in the appropriate columns
     $startColumn = $dayColumns[$dayOfWeek];
-    $sheet->fromArray([$data['SubjectName'], $data['FirstName'] . ' ' . $data['LastName'], $data['start_time'], $data['end_time']], null, $startColumn . $currentRow);
+    $sheet->fromArray([$data['subject_code'], $data['first_name'] . ' ' . $data['last_name'], $data['start_time'], $data['end_time']], null, $startColumn . $currentRow);
     $sheet->getStyle($startColumn . $currentRow . ':' . chr(ord($startColumn) + 3) . $currentRow)
         ->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
     $sheet->getStyle($startColumn . $currentRow . ':' . chr(ord($startColumn) + 3) . $currentRow)
@@ -139,7 +139,7 @@ while ($data = $result->fetch_assoc()) {
 }
 
 // Ensure the output directory exists and is writable
-$outputDir = 'C:/xampp/htdocs/Assignment-main/admin/output/';
+$outputDir = 'C:/xampp/htdocs/roomasm-master/admin/output/';
 if (!is_dir($outputDir)) {
     mkdir($outputDir, 0777, true);
 }
